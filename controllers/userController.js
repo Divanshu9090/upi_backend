@@ -2,7 +2,14 @@ const User = require("../models/User");
 
 exports.addMoney = async (req, res) => {
   try {
-    const { userId, amount } = req.body;
+    const { amount } = req.body;
+    const userId = req.user.id;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({
+        error: "Invalid amount",
+      });
+    }
 
     const user = await User.findById(userId);
 
@@ -27,22 +34,15 @@ exports.addMoney = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.getProfile = async (req, res) => {
   try {
-    const { id } = req.params;
+    const user = await User.findById(req.user.id).select("-password");
 
-    const user = await User.findById(id).select("-password");
-
-    if (!user) {
-      return res.status(404).json({
-        error: "User not found",
-      });
-    }
-
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({
-      error: err.message,
+    res.json({
+      success: true,
+      user,
     });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
   }
 };

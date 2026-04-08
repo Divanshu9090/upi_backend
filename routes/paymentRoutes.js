@@ -4,7 +4,7 @@ const { makePayment, getHistory } = require("../controllers/paymentController");
 
 const router = express.Router();
 
-router.get("/history/:userId", getHistory);
-router.post("/pay/:userId", authMiddleware, makePayment);
+router.get("/history", authMiddleware, getHistory);
+router.post("/pay", authMiddleware, makePayment);
 
 module.exports = router;

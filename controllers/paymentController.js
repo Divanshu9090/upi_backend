@@ -22,7 +22,7 @@ async function checkFraudAllModels(data) {
 
 exports.makePayment = async (req, res) => {
   try {
-    const senderId = req.params.userId;
+    const senderId = req.user.id;
     const { receiverPhone, category, amount } = req.body;
 
     const sender = await User.findById(senderId);
@@ -103,7 +103,7 @@ exports.makePayment = async (req, res) => {
 
 exports.getHistory = async (req, res) => {
   const transactions = await Transaction.find({
-    $or: [{ sender: req.params.userId }, { receiver: req.params.userId }],
+    $or: [{ sender: req.user.id }, { receiver: req.user.id }],
   }).populate("sender receiver");
 
   res.json(transactions);

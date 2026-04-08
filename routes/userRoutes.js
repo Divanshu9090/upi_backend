@@ -4,7 +4,7 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/details/:id", getUser);
+router.get("/profile", authMiddleware, getUser);
 router.post("/add-money", authMiddleware, addMoney);
 
 module.exports = router;
