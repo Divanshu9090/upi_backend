@@ -1,10 +1,10 @@
 const express = require("express");
-const { addMoney, getUser } = require("../controllers/userController");
+const { addMoney, getProfile } = require("../controllers/userController");
 const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/profile", authMiddleware, getUser);
+router.get("/profile", authMiddleware, getProfile);
 router.post("/add-money", authMiddleware, addMoney);
 
 module.exports = router;
