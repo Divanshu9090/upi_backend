@@ -105,9 +105,9 @@ exports.getHistory = async (req, res) => {
   const userId = req.user.id;
 
   const transactions = await Transaction.find({
-    sender: userId,
+    $or: [{ sender: userId }, { receiver: userId }],
   })
-    .populate("receiver", "name phone")
+    .populate("sender receiver")
     .sort({ createdAt: -1 });
 
   res.json(transactions);
