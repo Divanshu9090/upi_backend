@@ -102,9 +102,13 @@ exports.makePayment = async (req, res) => {
 };
 
 exports.getHistory = async (req, res) => {
+  const userId = req.user.id;
+
   const transactions = await Transaction.find({
-    $or: [{ sender: req.user.id }, { receiver: req.user.id }],
-  }).populate("sender receiver");
+    sender: userId,
+  })
+    .populate("receiver", "name phone")
+    .sort({ createdAt: -1 });
 
   res.json(transactions);
 };
