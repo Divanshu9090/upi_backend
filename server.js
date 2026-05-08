@@ -16,6 +16,10 @@ app.use("/api/payment", require("./routes/paymentRoutes"));
 
 const PORT = process.env.PORT || 5000;
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Payment backend API");
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
